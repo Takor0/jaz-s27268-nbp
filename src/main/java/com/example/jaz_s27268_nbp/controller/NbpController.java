@@ -1,5 +1,6 @@
 package com.example.jaz_s27268_nbp.controller;
 
+import com.example.jaz_s27268_nbp.model.ExchangeRatesPerPeriod;
 import com.example.jaz_s27268_nbp.service.NbpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,12 +26,12 @@ public class NbpController {
             @ApiResponse(responseCode = "200", description = "Ok")
     })
     @GetMapping("/average/{currency_code}/")
-    public ResponseEntity<Double> getAverageExchangeRates(
+    public ResponseEntity<ExchangeRatesPerPeriod> getAverageExchangeRates(
             @PathVariable("currency_code") String currency_code,
             @RequestParam("startDate") LocalDate startDate,
             @RequestParam("endDate") LocalDate endDate
     ) {
-        double average = nbpService.getAndStoreAverageExchangeRatesPerPeriod(currency_code, startDate, endDate);
-        return ResponseEntity.ok(average);
+        ExchangeRatesPerPeriod exchangeRatesPerPeriod = nbpService.getAndStoreAverageExchangeRatesPerPeriod(currency_code, startDate, endDate);
+        return ResponseEntity.ok(exchangeRatesPerPeriod);
     }
 }

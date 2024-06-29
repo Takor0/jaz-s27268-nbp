@@ -20,7 +20,7 @@ public class NbpService {
         this.exchangeRatesPerPeriodRepository = exchangeRatesPerPeriodRepository;
     }
 
-    public double getAndStoreAverageExchangeRatesPerPeriod(String currencyCode, LocalDate startDate, LocalDate endDate) {
+    public ExchangeRatesPerPeriod getAndStoreAverageExchangeRatesPerPeriod(String currencyCode, LocalDate startDate, LocalDate endDate) {
         NbpResponse response = nbpClient.getExchangeRatesPerPeriod(currencyCode, startDate, endDate);
         double ratesAvg = response.getRates().stream()
                 .mapToDouble(NbpResponse.Rate::getMid)
@@ -35,6 +35,6 @@ public class NbpService {
                 endDate
         );
         exchangeRatesPerPeriodRepository.save(exchangeRatesPerPeriod);
-        return ratesAvg;
+        return exchangeRatesPerPeriod;
     }
 }
