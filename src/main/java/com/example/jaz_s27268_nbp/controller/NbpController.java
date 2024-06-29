@@ -28,7 +28,7 @@ public class NbpController {
     })
     @GetMapping("/average/{currency_code}/")
     public ResponseEntity<ExchangeRatesPerPeriod> getAverageExchangeRates(
-            @Parameter(name = "Currency code", example = "usd") @PathVariable("currency_code") String currency_code,
+            @Parameter(name = "Currency code", description = "Currency code of wanted exchange rate",example = "usd") @PathVariable("currency_code") String currency_code,
             @Parameter(name = "Start date", description = "Aggregation start date", example = "2020-01-01") @RequestParam("startDate") LocalDate startDate,
             @Parameter(name = "End date", description = "Aggregation end date", example = "2020-01-11") @RequestParam("endDate") LocalDate endDate
     ) {
