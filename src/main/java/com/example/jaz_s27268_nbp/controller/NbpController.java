@@ -3,6 +3,7 @@ package com.example.jaz_s27268_nbp.controller;
 import com.example.jaz_s27268_nbp.model.ExchangeRatesPerPeriod;
 import com.example.jaz_s27268_nbp.service.NbpService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +29,7 @@ public class NbpController {
     })
     @GetMapping("/average/{currency_code}/")
     public ResponseEntity<ExchangeRatesPerPeriod> getAverageExchangeRates(
-            @Parameter(name = "Currency code", description = "Currency code of wanted exchange rate",example = "usd") @PathVariable("currency_code") String currency_code,
+            @Parameter(in = ParameterIn.QUERY, name = "Currency code", description = "Currency code of wanted exchange rate", example = "usd") @PathVariable("currency_code") String currency_code,
             @Parameter(name = "Start date", description = "Aggregation start date", example = "2020-01-01") @RequestParam("startDate") LocalDate startDate,
             @Parameter(name = "End date", description = "Aggregation end date", example = "2020-01-11") @RequestParam("endDate") LocalDate endDate
     ) {
