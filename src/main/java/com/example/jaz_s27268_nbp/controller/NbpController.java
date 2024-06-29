@@ -5,6 +5,7 @@ import com.example.jaz_s27268_nbp.service.NbpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +28,9 @@ public class NbpController {
     })
     @GetMapping("/average/{currency_code}/")
     public ResponseEntity<ExchangeRatesPerPeriod> getAverageExchangeRates(
-            @PathVariable("currency_code") String currency_code,
-            @RequestParam("startDate") LocalDate startDate,
-            @RequestParam("endDate") LocalDate endDate
+            @Parameter(name = "Currency code", example = "usd") @PathVariable("currency_code") String currency_code,
+            @Parameter(name = "Start date", description = "Aggregation start date", example = "2020-01-01") @RequestParam("startDate") LocalDate startDate,
+            @Parameter(name = "End date", description = "Aggregation end date", example = "2020-01-11") @RequestParam("endDate") LocalDate endDate
     ) {
         ExchangeRatesPerPeriod exchangeRatesPerPeriod = nbpService.getAndStoreAverageExchangeRatesPerPeriod(currency_code, startDate, endDate);
         return ResponseEntity.ok(exchangeRatesPerPeriod);
