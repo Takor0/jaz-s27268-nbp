@@ -27,13 +27,13 @@ public class NbpController {
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "200", description = "Ok")
     })
-    @GetMapping("/average/{currency_code}/")
+        @GetMapping("/average/{currencyCode}/")
     public ResponseEntity<ExchangeRatesPerPeriod> getAverageExchangeRates(
-            @Parameter(in = ParameterIn.QUERY, name = "Currency code", description = "Currency code of wanted exchange rate", example = "usd") @PathVariable("currency_code") String currency_code,
-            @Parameter(name = "Start date", description = "Aggregation start date", example = "2020-01-01") @RequestParam("startDate") LocalDate startDate,
-            @Parameter(name = "End date", description = "Aggregation end date", example = "2020-01-11") @RequestParam("endDate") LocalDate endDate
+            @Parameter(in = ParameterIn.PATH, name = "currencyCode", description = "Currency code of wanted exchange rate", example = "usd") @PathVariable("currencyCode") String currencyCode,
+            @Parameter(name = "startDate", description = "Aggregation start date", example = "2020-01-01") @RequestParam("startDate") LocalDate startDate,
+            @Parameter(name = "endDate", description = "Aggregation end date", example = "2020-01-11") @RequestParam("endDate") LocalDate endDate
     ) {
-        ExchangeRatesPerPeriod exchangeRatesPerPeriod = nbpService.getAndStoreAverageExchangeRatesPerPeriod(currency_code, startDate, endDate);
+        ExchangeRatesPerPeriod exchangeRatesPerPeriod = nbpService.getAndStoreAverageExchangeRatesPerPeriod(currencyCode, startDate, endDate);
         return ResponseEntity.ok(exchangeRatesPerPeriod);
     }
 }
