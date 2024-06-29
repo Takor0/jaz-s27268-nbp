@@ -1,19 +1,21 @@
 package com.example.jaz_s27268_nbp.controller;
 
-import com.example.jaz_s27268_nbp.service.KantorekService;
+import com.example.jaz_s27268_nbp.service.NbpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/kantorek/exchange-rate")
-public class KantorekController {
-    private final KantorekService kantorekService;
+public class NbpController {
+    private final NbpService nbpService;
 
-    public KantorekController(KantorekService kantorekService) {
-        this.kantorekService = kantorekService;
+    public NbpController(NbpService nbpService) {
+        this.nbpService = nbpService;
     }
 
     @Operation(summary = "Get average exchange rate to pln", description = "Returnnig average exchange rate to pln for given currency code and days")
@@ -25,9 +27,10 @@ public class KantorekController {
     @GetMapping("/average/{currency_code}/")
     public ResponseEntity<Double> getAverageExchangeRates(
             @PathVariable("currency_code") String currency_code,
-            @RequestParam(value = "days", defaultValue = "1") int days
+            @RequestParam("startDate") LocalDate startDate,
+            @RequestParam("endDate") LocalDate endDate
     ) {
-        double average = kantorekService.getAverageExchangeRatesPerPeriod(currency_code, days);
+        double average = nbpService.getAndStoreAverageExchangeRatesPerPeriod(currency_code, startDate, endDate);
         return ResponseEntity.ok(average);
     }
 }

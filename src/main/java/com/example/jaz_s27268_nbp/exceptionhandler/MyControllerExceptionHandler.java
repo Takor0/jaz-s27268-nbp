@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 
 @RestControllerAdvice
-public class KantorekControllerExceptionHandler {
+public class MyControllerExceptionHandler {
 
     @ExceptionHandler({NoRatesException.class})
     public ResponseEntity<String> handleNoRatesException(NoRatesException ex) {

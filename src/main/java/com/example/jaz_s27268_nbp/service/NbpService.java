@@ -7,30 +7,32 @@ import com.example.jaz_s27268_nbp.model.NbpResponse;
 import com.example.jaz_s27268_nbp.repository.ExchangeRatesPerPeriodRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
-public class KantorekService {
+public class NbpService {
     private final NbpClient nbpClient;
     private final ExchangeRatesPerPeriodRepository exchangeRatesPerPeriodRepository;
 
-    public KantorekService(NbpClient nbpClient, ExchangeRatesPerPeriodRepository exchangeRatesPerPeriodRepository) {
+    public NbpService(NbpClient nbpClient, ExchangeRatesPerPeriodRepository exchangeRatesPerPeriodRepository) {
         this.nbpClient = nbpClient;
         this.exchangeRatesPerPeriodRepository = exchangeRatesPerPeriodRepository;
     }
 
-    public double getAverageExchangeRatesPerPeriod(String currencyCode, int days) {
-        NbpResponse response = nbpClient.getExchangeRatesPerPeriod(currencyCode, days);
+    public double getAndStoreAverageExchangeRatesPerPeriod(String currencyCode, LocalDate startDate, LocalDate endDate) {
+        NbpResponse response = nbpClient.getExchangeRatesPerPeriod(currencyCode, startDate, endDate);
         double ratesAvg = response.getRates().stream()
                 .mapToDouble(NbpResponse.Rate::getMid)
                 .average()
                 .orElseThrow(() -> new NoRatesException("No rates available for the given period"));
-        LocalDateTime date_time = LocalDateTime.now();
+        LocalDateTime reqDate = LocalDateTime.now();
         ExchangeRatesPerPeriod exchangeRatesPerPeriod = new ExchangeRatesPerPeriod(
                 currencyCode,
-                days,
                 ratesAvg,
-                date_time
+                reqDate,
+                startDate,
+                endDate
         );
         exchangeRatesPerPeriodRepository.save(exchangeRatesPerPeriod);
         return ratesAvg;
