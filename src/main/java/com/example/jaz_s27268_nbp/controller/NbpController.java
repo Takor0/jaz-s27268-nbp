@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/kantorek/exchange-rate")
+@RequestMapping("/nbp/exchange-rate")
 public class NbpController {
     private final NbpService nbpService;
 
