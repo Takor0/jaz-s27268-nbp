@@ -18,7 +18,7 @@ public class NbpController {
         this.nbpService = nbpService;
     }
 
-    @Operation(summary = "Get average exchange rate to pln", description = "Returnnig average exchange rate to pln for given currency code and days")
+    @Operation(summary = "Get average exchange rate to pln", description = "Returns average exchange rate to pln for given currency code in given period")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Not found"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
